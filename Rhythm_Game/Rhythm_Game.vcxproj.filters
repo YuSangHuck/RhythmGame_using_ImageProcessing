@@ -53,9 +53,6 @@
     <ClCompile Include="images.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="hand.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="rhythm_game.h">
@@ -71,9 +68,6 @@
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_rhythm_game.h">
       <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="includes.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
