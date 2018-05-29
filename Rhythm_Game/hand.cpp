@@ -1,10 +1,11 @@
 #include "includes.h"
 
 //#define KALMAN_EXAMPLE
+//#define DRAWING
 #define CONVEXITY
-#define HAND_DETECT_VER1
-//#define HAND_DETECT_VER2
-//#define HAND_DETECT_VER3
+//#define HAND_DETECT_VER1 // using convexHull & convexityDefect
+#define HAND_DETECT_VER2 // using centerPonintOfHand & convexHull through line and circle
+//#define HAND_DETECT_VER3 // using center & circle through and(binary) operation
 
 using namespace cv;
 using namespace std;
@@ -18,8 +19,8 @@ private:
 	float curTime; int kk = 1;
 public:
 	Video() {
-		sz.width = 1920;
-		sz.height = 1080;
+		sz.width = 1280;
+		sz.height = 720;
 		camera = VideoCapture(0);
 		if (!camera.isOpened())
 			printf("Camera not connected!");
@@ -89,7 +90,9 @@ public:
 			}
 			if (index >= 0) {
 				Mat cImg(Size(imgROI.rows, imgROI.cols), CV_8UC1, Scalar(0));
+#ifdef DRAWING
 				drawContours(drawROI, contours, index, Scalar(0, 0, 255), 3); //skin color contours
+#endif
 
 				vector<vector<Point>> hull(contours.size());
 				for (int i = 0; i < contours.size(); i++)
@@ -133,10 +136,12 @@ public:
 					//               printf("%dside finger count : %d\n", flag,fingerCount);
 				}
 
+#ifdef DRAWING
 				drawContours(drawROI, hull, index, Scalar(0, 255, 255), 3); //convex hull
 				circle(drawROI, centerOfHand, radius, Scalar(0, 0, 255), 3);
 				circle(drawROI, centerOfHand, radius * scale, Scalar(255, 0, 255), 3);
 				circle(drawROI, centerOfHand, 10, Scalar(255, 255, 0), 3);
+#endif
 			}
 		}
 	}
@@ -183,8 +188,9 @@ public:
 			}
 			if (index >= 0) {
 				Mat cImg(imgROI.size(), CV_8U, Scalar(0));
+#ifdef DRAWING
 				drawContours(drawROI, contours, index, Scalar(0, 0, 255), 3); //skin color contours
-
+#endif
 				vector<vector<Point>> hull(contours.size());
 				for (int i = 0; i < contours.size(); i++)
 					//{
@@ -224,6 +230,7 @@ public:
 					printf("finger count : %d\n", fingerCount);
 				}
 
+#ifdef DRAWING
 				drawContours(drawROI, hull, index, Scalar(0, 255, 255), 3); //convex hull
 #ifdef CONVEXITY
 				for(int i = 0; i < hull[index].size(); i++)
@@ -232,6 +239,7 @@ public:
 				circle(drawROI, centerOfHand, radius, Scalar(0, 0, 255), 3);
 				circle(drawROI, centerOfHand, radius * scale, Scalar(255, 0, 255), 3);
 				circle(drawROI, centerOfHand, 10, Scalar(255, 255, 0), 3);
+#endif
 			}
 		}
 	}
@@ -306,7 +314,10 @@ public:
 							//							int startidx = v[0]; Point ptstart(contours[i][startidx]);
 							int endidx = v[1]; Point ptend(contours[i][endidx]);
 							//							int faridx = v[2]; Point ptfar(contours[i][faridx]);
+#ifdef DRAWING
 							circle(drawROI, ptend, 5, Scalar(0, 255, 0), 3);
+#endif
+
 							int n = sqrt(pow(ptend.x - centerOfHand.x, 2) + pow(ptend.y - centerOfHand.y, 2));
 							if (mindistance > n) mindistance = n;
 						}
@@ -314,11 +325,13 @@ public:
 				}
 
 				// Draw on origin	
+#ifdef DRAWING
 				drawContours(drawROI, contours, index, Scalar(0, 0, 255), 3); //skin color contours
 				drawContours(drawROI, hull, index, Scalar(0, 255, 255), 3); //convex hull
 
 				circle(drawROI, centerOfHand, radius, Scalar(0, 0, 255), 3);
 				circle(drawROI, centerOfHand, mindistance, Scalar(255, 0, 255), 3);
+#endif
 
 				//Mat sub = hand - andimg; //손가락 구하기
 				//imshow("finger", sub);
@@ -336,7 +349,9 @@ public:
 				//and 연산
 
 				//			if (centerOfHand.x > 0 && centerOfHand.y > 0 && centerOfHand.x < 850 && centerOfHand.y < 620)
+#ifdef DRAWING
 				circle(drawROI, centerOfHand, 10, Scalar(255, 255, 0), 3);
+#endif
 			}
 		}
 	}
