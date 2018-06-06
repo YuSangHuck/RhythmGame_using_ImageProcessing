@@ -9,3 +9,7 @@
 #include <opencv2\highgui\highgui.hpp>
 #include <opencv2\imgproc\imgproc.hpp>
 #include <opencv2\core\mat.hpp>
+#include <opencv2\video\tracking.hpp>
+
+using namespace std;
+using namespace cv;
