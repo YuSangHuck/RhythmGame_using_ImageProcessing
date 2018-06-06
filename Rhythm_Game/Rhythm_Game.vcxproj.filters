@@ -69,5 +69,11 @@
     <ClInclude Include="GeneratedFiles\ui_rhythm_game.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+    <ClInclude Include="includes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hand.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
